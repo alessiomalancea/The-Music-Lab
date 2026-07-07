@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Music Lab — Atelier de Songwriting, Producție & Vocal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;900&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0d0f13;
+    --bg-panel: #16181f;
+    --bg-panel-2: #1c1f28;
+    --wire: #2a2d37;
+    --wire-soft: #22242c;
+    --cream: #f3efe6;
+    --cream-dim: #b9b6ad;
+    --brass: #d4a24c;
+    --brass-dim: #8a7245;
+    --teal: #4a9089;
+    --teal-dim: #35625d;
+    --rose: #c65d7b;
+    --rose-dim: #8a4159;
+    --radius: 4px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Big Shoulders Display', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    line-height:0.95;
+    font-weight:700;
+  }
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  ::selection{ background:var(--brass); color:#100c04; }
+
+  :focus-visible{
+    outline: 2px solid var(--brass);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Background grid texture ---------- */
+  .grid-bg{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(var(--wire-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--wire-soft) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity:0.35;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    background:rgba(13,15,19,0.86);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--wire);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 32px;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:900;
+    font-size:22px;
+    letter-spacing:0.02em;
+  }
+  .logo .rec-dot{
+    width:9px; height:9px;
+    border-radius:50%;
+    background:var(--rose);
+    box-shadow:0 0 8px var(--rose);
+    animation: blink 2.4s infinite ease-in-out;
+  }
+  .nav-links{
+    display:flex;
+    gap:30px;
+    font-size:14px;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .nav-links a{
+    color:var(--cream-dim);
+    position:relative;
+    padding-bottom:4px;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{ color:var(--cream); }
+  .nav-links a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:0;
+    width:0; height:1px;
+    background:var(--brass);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover::after{ width:100%; }
+
+  .nav-cta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    padding:10px 18px;
+    border:1px solid var(--brass);
+    color:var(--brass);
+    border-radius:2px;
+    transition:all .2s ease;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{ background:var(--brass); color:#100c04; }
+
+  .burger{ display:none; background:none; border:none; color:var(--cream); font-size:22px; cursor:pointer; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    z-index:1;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding-top:90px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap:60px;
+    align-items:center;
+    width:100%;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--brass);
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:26px; height:1px;
+    background:var(--brass);
+  }
+  .hero h1{
+    font-size:clamp(46px, 6.4vw, 92px);
+    color:var(--cream);
+  }
+  .hero h1 span{ display:block; }
+  .hero h1 .c1{ color:var(--brass); }
+  .hero h1 .c2{ color:var(--teal); }
+  .hero h1 .c3{ color:var(--rose); }
+
+  .hero-sub{
+    margin-top:26px;
+    max-width:480px;
+    color:var(--cream-dim);
+    font-size:17px;
+  }
+
+  .hero-ctas{
+    margin-top:36px;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    padding:15px 26px;
+    border-radius:2px;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:all .2s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .btn-primary{
+    background:var(--brass);
+    color:#100c04;
+  }
+  .btn-primary:hover{ background:#e8b869; }
+  .btn-ghost{
+    border-color:var(--wire);
+    color:var(--cream);
+  }
+  .btn-ghost:hover{ border-color:var(--cream-dim); }
+
+  .hero-meta{
+    margin-top:44px;
+    display:flex;
+    gap:36px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--cream-dim);
+  }
+  .hero-meta b{ color:var(--cream); display:block; font-size:20px; font-family:'Big Shoulders Display', sans-serif; }
+
+  /* VU meter visual */
+  .console{
+    background:var(--bg-panel);
+    border:1px solid var(--wire);
+    border-radius:var(--radius);
+    padding:26px;
+  }
+  .console-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--cream-dim);
+    letter-spacing:0.1em;
+    margin-bottom:20px;
+    text-transform:uppercase;
+  }
+  .console-head .dots{ display:flex; gap:6px; }
+  .console-head .dots span{ width:7px; height:7px; border-radius:50%; background:var(--wire); }
+
+  .vu{
+    display:flex;
+    align-items:flex-end;
+    gap:6px;
+    height:170px;
+    padding:10px 4px;
+    border-bottom:1px solid var(--wire);
+  }
+  .vu i{
+    flex:1;
+    display:block;
+    border-radius:1px;
+    background: linear-gradient(180deg, var(--rose), var(--brass) 55%, var(--teal));
+    animation: vu-bounce 1.6s ease-in-out infinite;
+    transform-origin:bottom;
+  }
+  .vu i:nth-child(1){ animation-delay:-0.1s; }
+  .vu i:nth-child(2){ animation-delay:-0.9s; }
+  .vu i:nth-child(3){ animation-delay:-0.3s; }
+  .vu i:nth-child(4){ animation-delay:-1.2s; }
+  .vu i:nth-child(5){ animation-delay:-0.6s; }
+  .vu i:nth-child(6){ animation-delay:-1.4s; }
+  .vu i:nth-child(7){ animation-delay:-0.2s; }
+  .vu i:nth-child(8){ animation-delay:-1.0s; }
+  .vu i:nth-child(9){ animation-delay:-0.4s; }
+  .vu i:nth-child(10){ animation-delay:-1.3s; }
+  .vu i:nth-child(11){ animation-delay:-0.7s; }
+  .vu i:nth-child(12){ animation-delay:-0.15s; }
+
+  @keyframes vu-bounce{
+    0%, 100%{ height:18%; }
+    50%{ height:var(--peak, 85%); }
+  }
+  .vu i:nth-child(odd){ --peak: 92%; }
+  .vu i:nth-child(3n){ --peak: 60%; }
+
+  .console-labels{
+    display:flex;
+    justify-content:space-between;
+    margin-top:14px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--cream-dim);
+  }
+  .console-labels b{ color:var(--brass); }
+
+  @keyframes blink{
+    0%, 100%{ opacity:1; }
+    50%{ opacity:0.25; }
+  }
+
+  /* ---------- Section shell ---------- */
+  section{
+    position:relative;
+    z-index:1;
+    padding:120px 0;
+  }
+  .section-head{
+    max-width:640px;
+    margin-bottom:64px;
+  }
+  .section-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--teal);
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+    display:block;
+  }
+  .section-head h2{
+    font-size:clamp(32px, 4.4vw, 52px);
+    color:var(--cream);
+  }
+  .section-head p{
+    margin-top:18px;
+    color:var(--cream-dim);
+    font-size:16px;
+    max-width:560px;
+  }
+
+  /* ---------- Intro ---------- */
+  .intro{
+    border-top:1px solid var(--wire);
+    border-bottom:1px solid var(--wire);
+  }
+  .intro-grid{
+    display:grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap:70px;
+    align-items:start;
+  }
+  .intro-grid p{ color:var(--cream-dim); font-size:17px; margin-bottom:18px; }
+  .intro-grid p:first-child{ color:var(--cream); font-size:22px; font-weight:500; line-height:1.5; }
+
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+    margin-top:10px;
+  }
+  .stat{
+    border-left:1px solid var(--wire);
+    padding-left:16px;
+  }
+  .stat b{
+    display:block;
+    font-family:'Big Shoulders Display', sans-serif;
+    font-size:38px;
+    color:var(--brass);
+  }
+  .stat span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--cream-dim);
+    text-transform:uppercase;
+  }
+
+  /* ---------- Channel strips (tracks) ---------- */
+  .strips{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:26px;
+  }
+  .strip{
+    background:var(--bg-panel);
+    border:1px solid var(--wire);
+    border-radius:var(--radius);
+    padding:28px 26px 32px;
+    display:flex;
+    flex-direction:column;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .strip:hover{ transform:translateY(-4px); }
+  .strip[data-c="brass"]:hover{ border-color:var(--brass-dim); }
+  .strip[data-c="teal"]:hover{ border-color:var(--teal-dim); }
+  .strip[data-c="rose"]:hover{ border-color:var(--rose-dim); }
+
+  .strip-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:22px;
+  }
+  .strip-num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--cream-dim);
+  }
+  .strip-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    padding:4px 9px;
+    border-radius:20px;
+    border:1px solid;
+  }
+  .strip[data-c="brass"] .strip-tag{ color:var(--brass); border-color:var(--brass-dim); }
+  .strip[data-c="teal"] .strip-tag{ color:var(--teal); border-color:var(--teal-dim); }
+  .strip[data-c="rose"] .strip-tag{ color:var(--rose); border-color:var(--rose-dim); }
+
+  .strip h3{
+    font-size:30px;
+    color:var(--cream);
+    margin-bottom:14px;
+  }
+  .strip p.desc{ color:var(--cream-dim); font-size:15px; margin-bottom:22px; }
+
+  .fader{
+    position:relative;
+    height:120px;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    margin-bottom:22px;
+  }
+  .fader-track{
+    width:3px;
+    height:100%;
+    background:var(--wire);
+    position:relative;
+    border-radius:2px;
+  }
+  .fader-handle{
+    position:absolute;
+    left:50%;
+    transform:translate(-50%, 50%);
+    bottom:var(--level, 40%);
+    width:34px;
+    height:14px;
+    border-radius:2px;
+    background:var(--cream);
+  }
+  .strip[data-c="brass"] .fader-handle{ background:var(--brass); }
+  .strip[data-c="teal"] .fader-handle{ background:var(--teal); }
+  .strip[data-c="rose"] .fader-handle{ background:var(--rose); }
+  .fader-scale{
+    position:absolute;
+    right:calc(50% + 26px);
+    top:0; bottom:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    color:var(--cream-dim);
+  }
+
+  .strip ul{
+    list-style:none;
+    margin-top:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .strip ul li{
+    font-size:14px;
+    color:var(--cream-dim);
+    display:flex;
+    gap:10px;
+    align-items:baseline;
+  }
+  .strip ul li::before{
+    content:'—';
+    color:var(--cream-dim);
+    flex-shrink:0;
+  }
+  .strip[data-c="brass"] ul li::before{ color:var(--brass); }
+  .strip[data-c="teal"] ul li::before{ color:var(--teal); }
+  .strip[data-c="rose"] ul li::before{ color:var(--rose); }
+
+  /* ---------- Timeline / program ---------- */
+  .timeline{
+    border-top:1px solid var(--wire);
+  }
+  .tl-row{
+    display:grid;
+    grid-template-columns: 120px 1fr 1fr;
+    gap:24px;
+    padding:26px 0;
+    border-bottom:1px solid var(--wire);
+    align-items:center;
+  }
+  .tl-row:first-child{ border-top:1px solid var(--wire); }
+  .tl-time{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--brass);
+    font-size:15px;
+  }
+  .tl-title{ font-size:19px; color:var(--cream); font-weight:600; }
+  .tl-desc{ color:var(--cream-dim); font-size:14px; }
+  .tl-tag{
+    display:inline-block;
+    margin-top:6px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--cream-dim);
+    border:1px solid var(--wire);
+    padding:3px 8px;
+    border-radius:20px;
+  }
+
+  /* ---------- Instructors ---------- */
+  .instructors{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:26px;
+  }
+  .instructor{
+    background:var(--bg-panel);
+    border:1px solid var(--wire);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .instructor-photo{
+    height:220px;
+    background:
+      linear-gradient(160deg, var(--bg-panel-2), var(--bg));
+    position:relative;
+    display:flex;
+    align-items:flex-end;
+    padding:16px;
+  }
+  .instructor-photo::before{
+    content:attr(data-initials);
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-55%);
+    font-family:'Big Shoulders Display', sans-serif;
+    font-size:64px;
+    font-weight:900;
+    color:var(--wire);
+  }
+  .instructor-photo span{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--cream-dim);
+    background:rgba(13,15,19,0.7);
+    padding:4px 8px;
+    border-radius:20px;
+    z-index:1;
+  }
+  .instructor-body{ padding:22px 24px 26px; }
+  .instructor-body h4{ font-size:22px; color:var(--cream); margin-bottom:4px; }
+  .instructor-role{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    margin-bottom:12px;
+    display:block;
+  }
+  .instructor[data-c="brass"] .instructor-role{ color:var(--brass); }
+  .instructor[data-c="teal"] .instructor-role{ color:var(--teal); }
+  .instructor[data-c="rose"] .instructor-role{ color:var(--rose); }
+  .instructor-body p{ color:var(--cream-dim); font-size:14px; }
+
+  /* ---------- Testimonials ---------- */
+  .testimonials{
+    border-top:1px solid var(--wire);
+    border-bottom:1px solid var(--wire);
+  }
+  .t-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--wire);
+    border:1px solid var(--wire);
+  }
+  .t-card{
+    background:var(--bg);
+    padding:32px 28px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+  .t-quote{ font-size:16px; color:var(--cream); font-style:italic; }
+  .t-who{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--cream-dim);
+    margin-top:auto;
+  }
+  .t-who b{ color:var(--cream); font-family:'Work Sans', sans-serif; font-style:normal; display:block; font-size:14px;}
+
+  /* ---------- Pricing ---------- */
+  .pricing{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:26px;
+  }
+  .plan{
+    border:1px solid var(--wire);
+    border-radius:var(--radius);
+    padding:34px 28px;
+    display:flex;
+    flex-direction:column;
+    background:var(--bg-panel);
+  }
+  .plan.featured{
+    border-color:var(--brass);
+    background:linear-gradient(180deg, rgba(212,162,76,0.08), transparent 40%), var(--bg-panel);
+  }
+  .plan-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--cream-dim);
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+  }
+  .plan h3{ font-size:30px; color:var(--cream); margin:10px 0 4px; }
+  .plan .price{
+    font-family:'JetBrains Mono', monospace;
+    font-size:32px;
+    color:var(--brass);
+    margin-bottom:20px;
+  }
+  .plan .price span{ font-size:14px; color:var(--cream-dim); }
+  .plan ul{ list-style:none; display:flex; flex-direction:column; gap:12px; margin-bottom:28px; }
+  .plan ul li{ font-size:14px; color:var(--cream-dim); display:flex; gap:10px; }
+  .plan ul li::before{ content:'✓'; color:var(--brass); flex-shrink:0; }
+  .plan .btn{ justify-content:center; margin-top:auto; }
+
+  /* ---------- FAQ ---------- */
+  .faq-list{ border-top:1px solid var(--wire); }
+  details{
+    border-bottom:1px solid var(--wire);
+    padding:22px 0;
+  }
+  details summary{
+    cursor:pointer;
+    list-style:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:18px;
+    color:var(--cream);
+    font-weight:500;
+  }
+  details summary::-webkit-details-marker{ display:none; }
+  details summary::after{
+    content:'+';
+    font-family:'JetBrains Mono', monospace;
+    color:var(--brass);
+    font-size:22px;
+    transition:transform .2s ease;
+    flex-shrink:0;
+    margin-left:20px;
+  }
+  details[open] summary::after{ content:'—'; }
+  details p{
+    color:var(--cream-dim);
+    font-size:15px;
+    margin-top:16px;
+    max-width:680px;
+  }
+
+  /* ---------- CTA / signup ---------- */
+  .cta-panel{
+    background:var(--bg-panel);
+    border:1px solid var(--wire);
+    border-radius:var(--radius);
+    padding:56px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    align-items:center;
+  }
+  .cta-panel h2{ font-size:clamp(30px, 3.6vw, 44px); color:var(--cream); margin-bottom:16px; }
+  .cta-panel p{ color:var(--cream-dim); font-size:15px; max-width:420px; }
+
+  .form-row{ display:flex; flex-direction:column; gap:16px; }
+  .field label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--cream-dim);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:8px;
+  }
+  .field input, .field select{
+    width:100%;
+    background:var(--bg);
+    border:1px solid var(--wire);
+    color:var(--cream);
+    padding:13px 14px;
+    border-radius:2px;
+    font-family:'Work Sans', sans-serif;
+    font-size:14px;
+  }
+  .field input:focus, .field select:focus{ border-color:var(--brass); outline:none; }
+  .form-row .btn{ justify-content:center; margin-top:6px; }
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:1px solid var(--wire);
+    padding:60px 0 34px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap:40px;
+    margin-bottom:50px;
+  }
+  .footer-brand p{ color:var(--cream-dim); font-size:14px; margin-top:14px; max-width:320px; }
+  .footer-col h5{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--cream-dim);
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    margin-bottom:16px;
+  }
+  .footer-col a{
+    display:block;
+    color:var(--cream-dim);
+    font-size:14px;
+    margin-bottom:10px;
+    transition:color .2s ease;
+  }
+  .footer-col a:hover{ color:var(--cream); }
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    padding-top:26px;
+    border-top:1px solid var(--wire);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--cream-dim);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 980px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .intro-grid{ grid-template-columns:1fr; gap:36px; }
+    .strips{ grid-template-columns:1fr; }
+    .instructors{ grid-template-columns:1fr; }
+    .t-grid{ grid-template-columns:1fr; }
+    .pricing{ grid-template-columns:1fr; }
+    .cta-panel{ grid-template-columns:1fr; padding:36px 26px; }
+    .footer-grid{ grid-template-columns:1fr; gap:30px; }
+    .tl-row{ grid-template-columns:1fr; gap:6px; }
+  }
+  @media (max-width: 760px){
+    .nav-links, .nav-cta{ display:none; }
+    .burger{ display:block; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<header>
+  <nav class="nav">
+    <div class="logo"><span class="rec-dot"></span> THE MUSIC LAB</div>
+    <div class="nav-links">
+      <a href="#ateliere">Ateliere</a>
+      <a href="#program">Program</a>
+      <a href="#traineri">Traineri</a>
+      <a href="#preturi">Prețuri</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#inscriere" class="nav-cta">Rezervă un loc →</a>
+    <button class="burger" aria-label="Meniu">☰</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Sesiune de înscrieri deschisă — Toamna 2026</div>
+        <h1>
+          <span class="c1">Compune.</span>
+          <span class="c2">Produce.</span>
+          <span class="c3">Cântă.</span>
+        </h1>
+        <p class="hero-sub">The Music Lab e atelierul unde o idee de la 2 dimineața ajunge o piesă mixată, cu versuri care rezistă și o linie vocală pe care chiar poți s-o susții live. Trei track-uri, un singur studio.</p>
+        <div class="hero-ctas">
+          <a href="#inscriere" class="btn btn-primary">Rezervă un loc</a>
+          <a href="#program" class="btn btn-ghost">Vezi programul zilei</a>
+        </div>
+        <div class="hero-meta">
+          <div><b>12</b> locuri / serie</div>
+          <div><b>3</b> track-uri paralele</div>
+          <div><b>1</b> piesă finită, mixată</div>
+        </div>
+      </div>
+
+      <div class="console">
+        <div class="console-head">
+          <span>MASTER OUT — L/R</span>
+          <div class="dots"><span></span><span></span><span></span></div>
+        </div>
+        <div class="vu">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="console-labels">
+          <span>-24dB</span>
+          <span><b>SESIUNE LIVE</b></span>
+          <span>0dB</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <div class="wrap intro-grid">
+      <div>
+        <p>Nu ținem cursuri de teorie. Punem oameni în cabine, la console și în fața microfonului, până iese ceva ce ai vrea să asculți a doua zi.</p>
+      </div>
+      <div>
+        <p>The Music Lab a pornit din frustrarea a trei prieteni muzicieni: versurile bune mureau în notițele telefonului, beat-urile stăteau nemixate, iar vocea suna bine doar sub duș. Am construit un atelier de o zi în care cele trei probleme se rezolvă în aceeași cameră, cu instructori care lucrează activ în industrie.</p>
+        <div class="stat-row">
+          <div class="stat"><b>340+</b><span>Absolvenți</span></div>
+          <div class="stat"><b>96</b><span>Piese lansate</span></div>
+          <div class="stat"><b>4.9</b><span>Rating mediu</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACKS -->
+  <section id="ateliere">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-tag">Cele 3 track-uri</span>
+        <h2>Fiecare canal, reglat pentru tine</h2>
+        <p>Alegi un focus principal la înscriere, dar în timpul zilei treci prin toate trei — pentru că o piesă bună are nevoie de toate.</p>
+      </div>
+
+      <div class="strips">
+
+        <div class="strip" data-c="brass" style="--level:70%">
+          <div class="strip-top">
+            <span class="strip-num mono">CH.01</span>
+            <span class="strip-tag">SONGWRITING</span>
+          </div>
+          <h3>Versuri &amp; Melodie</h3>
+          <p class="desc">Pornești de la o idee, un citat sau o stare și ieși cu structură completă: strofă, refren, punte.</p>
+          <div class="fader">
+            <div class="fader-scale"><span>10</span><span>5</span><span>0</span></div>
+            <div class="fader-track"><div class="fader-handle"></div></div>
+          </div>
+          <ul>
+            <li>Tehnici de scriere pe ritm dat</li>
+            <li>Construcția unui refren memorabil</li>
+            <li>Sesiune de co-writing în grupuri mici</li>
+            <li>Feedback linie cu linie de la trainer</li>
+          </ul>
+        </div>
+
+        <div class="strip" data-c="teal" style="--level:55%">
+          <div class="strip-top">
+            <span class="strip-num mono">CH.02</span>
+            <span class="strip-tag">PRODUCȚIE</span>
+          </div>
+          <h3>Beat &amp; Mix</h3>
+          <p class="desc">De la un sample sau un instrumental gol la un mix care sună la fel de bine pe telefon și pe boxe mari.</p>
+          <div class="fader">
+            <div class="fader-scale"><span>10</span><span>5</span><span>0</span></div>
+            <div class="fader-track"><div class="fader-handle"></div></div>
+          </div>
+          <ul>
+            <li>Programare de baterie și aranjament</li>
+            <li>Bazele mixajului: EQ, compresie, spațiu</li>
+            <li>Lucrul cu DAW-ul tău (Ableton, FL, Logic)</li>
+            <li>Export și pregătire pentru distribuție</li>
+          </ul>
+        </div>
+
+        <div class="strip" data-c="rose" style="--level:82%">
+          <div class="strip-top">
+            <span class="strip-num mono">CH.03</span>
+            <span class="strip-tag">VOCAL</span>
+          </div>
+          <h3>Tehnică &amp; Interpretare</h3>
+          <p class="desc">Respirație, poziție, intonație și, mai ales, cum să livrezi un rând ca și cum chiar îl trăiești.</p>
+          <div class="fader">
+            <div class="fader-scale"><span>10</span><span>5</span><span>0</span></div>
+            <div class="fader-track"><div class="fader-handle"></div></div>
+          </div>
+          <ul>
+            <li>Încălzire vocală și control al respirației</li>
+            <li>Ad-libs, armonii și dublaje</li>
+            <li>Interpretare în fața microfonului de studio</li>
+            <li>Înregistrare finală cu vocal comping</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAM -->
+  <section id="program" class="timeline">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-tag">Programul zilei</span>
+        <h2>O sesiune, de la 09:00 la piesă gata</h2>
+        <p>Atelierul durează o zi întreagă. Nimeni nu pleacă acasă fără un fișier audio pe care să-l asculte.</p>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-time mono">09:00</div>
+        <div>
+          <div class="tl-title">Sound check &amp; formare grupuri</div>
+          <div class="tl-tag">Toate track-urile</div>
+        </div>
+        <div class="tl-desc">Împărțire pe grupuri de 3-4, alegerea temei zilei și setarea instrumentelor personale.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time mono">10:00</div>
+        <div>
+          <div class="tl-title">Scriere &amp; structură</div>
+          <div class="tl-tag">Songwriting</div>
+        </div>
+        <div class="tl-desc">Sesiune ghidată de co-writing: temă, refren, punte. Trainerul trece pe la fiecare grup.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time mono">12:30</div>
+        <div>
+          <div class="tl-title">Beat building</div>
+          <div class="tl-tag">Producție</div>
+        </div>
+        <div class="tl-desc">Construirea instrumentalului pe care se va înregistra vocea, cu suport tehnic 1-la-1.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time mono">14:00</div>
+        <div>
+          <div class="tl-title">Pauză de prânz</div>
+          <div class="tl-tag">Toate track-urile</div>
+        </div>
+        <div class="tl-desc">Masă inclusă, ascultăm și comentăm ce s-a produs până acum.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time mono">15:00</div>
+        <div>
+          <div class="tl-title">Încălzire &amp; tehnică vocală</div>
+          <div class="tl-tag">Vocal</div>
+        </div>
+        <div class="tl-desc">Exerciții de respirație și intonație, apoi lucru pe interpretarea textului scris dimineața.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time mono">17:00</div>
+        <div>
+          <div class="tl-title">Înregistrare &amp; mixaj final</div>
+          <div class="tl-tag">Producție + Vocal</div>
+        </div>
+        <div class="tl-desc">Fiecare grup înregistrează vocea peste beat și primește un mix rapid de la trainer.</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-time mono">19:00</div>
+        <div>
+          <div class="tl-title">Ascultare de grup</div>
+          <div class="tl-tag">Toate track-urile</div>
+        </div>
+        <div class="tl-desc">Fiecare piesă e ascultată de tot atelierul, cu feedback deschis și fișierul final trimis pe email.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTRUCTORI -->
+  <section id="traineri">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-tag">Traineri</span>
+        <h2>Oameni care lucrează, nu doar predau</h2>
+        <p>Toți traineri activează curent în studiouri, turnee sau echipe de producție — nu doar au predat cândva.</p>
+      </div>
+
+      <div class="instructors">
+        <div class="instructor" data-c="brass">
+          <div class="instructor-photo" data-initials="AD">
+            <span>Songwriting Lead</span>
+          </div>
+          <div class="instructor-body">
+            <h4>Ana Dobre</h4>
+            <span class="instructor-role mono">Textier &amp; topliner</span>
+            <p>A scris pentru artiști independenți din 4 țări și conduce sesiunile de co-writing de la fondarea atelierului.</p>
+          </div>
+        </div>
+        <div class="instructor" data-c="teal">
+          <div class="instructor-photo" data-initials="RV">
+            <span>Producție Lead</span>
+          </div>
+          <div class="instructor-body">
+            <h4>Radu Vasilescu</h4>
+            <span class="instructor-role mono">Producător &amp; mixing engineer</span>
+            <p>Are propriul studio de mixaj și predă bazele producției de peste șase ani, în engleză și română.</p>
+          </div>
+        </div>
+        <div class="instructor" data-c="rose">
+          <div class="instructor-photo" data-initials="MI">
+            <span>Vocal Lead</span>
+          </div>
+          <div class="instructor-body">
+            <h4>Miruna Iliescu</h4>
+            <span class="instructor-role mono">Vocal coach &amp; backing vocalist</span>
+            <p>Cântă în turnee ca backing vocalist și lucrează individual cu artiști pe interpretare și rezistență vocală.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALE -->
+  <section class="testimonials">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-tag">Ce spun participanții</span>
+        <h2>Direct din cabina de înregistrare</h2>
+      </div>
+    </div>
+    <div class="t-grid">
+      <div class="t-card">
+        <p class="t-quote">Am venit cu un refren pe notițe și am plecat cu o piesă mixată. Nu credeam că se poate într-o zi.</p>
+        <div class="t-who"><b>Bianca T.</b>Track: Songwriting</div>
+      </div>
+      <div class="t-card">
+        <p class="t-quote">Prima dată când am înțeles ce fac de fapt EQ-ul și compresia, nu doar unde să dau click.</p>
+        <div class="t-who"><b>Ștefan M.</b>Track: Producție</div>
+      </div>
+      <div class="t-card">
+        <p class="t-quote">Miruna m-a făcut să înțeleg că nu vocea îmi lipsea, ci încrederea în fața microfonului.</p>
+        <div class="t-who"><b>Larisa C.</b>Track: Vocal</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRETURI -->
+  <section id="preturi">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-tag">Pachete</span>
+        <h2>Alege cât de adânc intri în mix</h2>
+        <p>Prețul include masă de prânz, materiale și fișierul audio final. Locurile sunt limitate la 12 persoane pe serie.</p>
+      </div>
+
+      <div class="pricing">
+        <div class="plan">
+          <span class="plan-tag mono">Demo Session</span>
+          <h3>Un track</h3>
+          <div class="price mono">450 lei <span>/ persoană</span></div>
+          <ul>
+            <li>Acces la un singur track ales</li>
+            <li>Sesiune de grup, 3-4 persoane</li>
+            <li>Fișier audio brut, neexportat</li>
+            <li>Feedback de la un trainer</li>
+          </ul>
+          <a href="#inscriere" class="btn btn-ghost">Alege acest pachet</a>
+        </div>
+
+        <div class="plan featured">
+          <span class="plan-tag mono">Full Session — recomandat</span>
+          <h3>Toate cele 3</h3>
+          <div class="price mono">790 lei <span>/ persoană</span></div>
+          <ul>
+            <li>Acces complet la toate track-urile</li>
+            <li>Piesă finală mixată, exportată</li>
+            <li>Masă de prânz inclusă</li>
+            <li>Feedback individual de la fiecare trainer</li>
+            <li>Înregistrare video a sesiunii vocale</li>
+          </ul>
+          <a href="#inscriere" class="btn btn-primary">Alege acest pachet</a>
+        </div>
+
+        <div class="plan">
+          <span class="plan-tag mono">Album Pass</span>
+          <h3>3 sesiuni</h3>
+          <div class="price mono">1980 lei <span>/ persoană</span></div>
+          <ul>
+            <li>3 sesiuni Full Session la alegere</li>
+            <li>Trei piese finale, mixate</li>
+            <li>Sesiune bonus de mastering</li>
+            <li>Prioritate la înscrierea în serii viitoare</li>
+          </ul>
+          <a href="#inscriere" class="btn btn-ghost">Alege acest pachet</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-tag">Întrebări frecvente</span>
+        <h2>Înainte să apeși pe „Rezervă"</h2>
+      </div>
+      <div class="faq-list">
+        <details open>
+          <summary>Trebuie să știu deja să cânt sau să produc?</summary>
+          <p>Nu. Atelierul e construit pentru orice nivel, de la primul rând scris vreodată până la producători care vor doar să-și rafineze urechea de mixaj. Grupurile sunt formate ținând cont de nivelul fiecăruia.</p>
+        </details>
+        <details>
+          <summary>Ce trebuie să aduc cu mine?</summary>
+          <p>Laptop cu DAW-ul tău instalat (dacă ai unul), căști și, dacă vrei, un instrument personal. Restul echipamentului — microfoane, interfețe audio, monitoare — este pus la dispoziție de studio.</p>
+        </details>
+        <details>
+          <summary>Piesa finală îmi aparține în totalitate?</summary>
+          <p>Da. Tot ce se creează în timpul atelierului, versuri, instrumental și vocal, rămâne proprietatea ta. Poți s-o lansezi, distribui sau modifica oricum dorești după sesiune.</p>
+        </details>
+        <details>
+          <summary>Cât de mari sunt grupurile?</summary>
+          <p>Maximum 12 persoane pe serie, împărțite în grupuri de 3-4 pentru exercițiile de scriere și producție, cu sesiuni de vocal individuale în cabina de înregistrare.</p>
+        </details>
+        <details>
+          <summary>Ce se întâmplă dacă nu pot ajunge la data aleasă?</summary>
+          <p>Poți muta înscrierea gratuit către următoarea serie, cu condiția să ne anunți cu cel puțin 48 de ore înainte de eveniment.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSCRIERE -->
+  <section id="inscriere">
+    <div class="wrap">
+      <div class="cta-panel">
+        <div>
+          <span class="section-tag">Rezervă-ți locul</span>
+          <h2>Următoarea serie începe pe 14 septembrie</h2>
+          <p>Completează formularul și te contactăm în maximum 24 de ore ca să confirmăm locul și pachetul ales.</p>
+        </div>
+        <form class="form-row" onsubmit="return false;">
+          <div class="field">
+            <label for="nume">Nume complet</label>
+            <input id="nume" type="text" placeholder="Ex: Andrei Popescu" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="tu@exemplu.com" required>
+          </div>
+          <div class="field">
+            <label for="track">Track principal</label>
+            <select id="track">
+              <option>Songwriting</option>
+              <option>Producție</option>
+              <option>Vocal</option>
+              <option selected>Nu sunt sigur / vreau toate trei</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" type="submit">Trimite cererea de rezervare</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="rec-dot"></span> THE MUSIC LAB</div>
+        <p>Atelier de o zi pentru songwriting, producție și tehnică vocală. Trei track-uri, un singur studio, o piesă gata la final de zi.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigare</h5>
+        <a href="#ateliere">Ateliere</a>
+        <a href="#program">Program</a>
+        <a href="#traineri">Traineri</a>
+        <a href="#preturi">Prețuri</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@themusiclab.ro">contact@themusiclab.ro</a>
+        <a href="tel:+40712345678">+40 712 345 678</a>
+        <a href="#">Str. Studioului nr. 12, București</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 The Music Lab. Toate drepturile rezervate.</span>
+      <span>Made in a room full of cables.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
